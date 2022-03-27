@@ -1,0 +1,27 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:6.5
+    restart: always
+    volumes:
+      - ./mysql/data:/usr/local/mysql/data
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: Password123
+      MYSQL_DATABASE: companysoap
+      MYSQL_USER: drawdecs
+      MYSQL_PASSWORD: Password123
+  tomcat:
+    restart: always
+    image: tomcat:9.0-alpine
+    container_name: tomcat
+    ports:
+      - 8080:8080
+    volumes:
+      - ./soap-spring/build/libs/soap-spring-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/soap-spring.war
+      - ./web-spring/build/libs/web-spring-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/web-spring.war
+
